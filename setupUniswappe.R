@@ -1,7 +1,8 @@
 #!/usr/bin/Rscript
 
 install.packages("devtools")
-install.packages("Rserve")
+install.packages('Rserve',,"http://rforge.net/",type="source")
 devtools::install_github("Omni-Analytics-Group/uniswappeR")
-library(reticulate)
 require('Rserve')
+library(reticulate)
+library(uniswappeR)
