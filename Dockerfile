@@ -13,4 +13,4 @@ RUN Rscript setupUniswappe.R
 
 RUN go get github.com/senseyeio/roger
 
-#ENTRYPOINT ["nohup Rscript Rserve.R &"]
+ENTRYPOINT ["nohup Rscript RServe.R &"]
