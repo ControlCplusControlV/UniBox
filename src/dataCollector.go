@@ -2,32 +2,29 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/senseyeio/roger"
 )
 
-func Getdata() {
-	fmt.Println("cool")
-}
-
-func getTokenBalance() {
+func getFactoryStats() {
 	rClient, err := roger.NewRClient("127.0.0.1", 6311)
 	if err != nil {
 		fmt.Println("Failed to connect")
 		return
 	}
+	sesh, _ := rClient.GetSession()
 
-	value, err := rClient.Eval("pi")
+	var rCmd string = "factory_stats_v2()"
+
+	UserlpPositions, err := sesh.Eval(rCmd)
 	if err != nil {
-		fmt.Println("Command failed: " + err.Error())
+		fmt.Println(err)
 	} else {
-		fmt.Println(value) // 3.141592653589793
+		fmt.Println(UserlpPositions)
 	}
+	sesh.Close() // Cleanup when done
+}
 
-	helloWorld, _ := rClient.Eval("as.character('Hello World')")
-	fmt.Println(helloWorld) // Hello World
-
-	arrChan := rClient.Evaluate("Sys.sleep(5); c(1,1)")
-	arrResponse := <-arrChan
-	arr, _ := arrResponse.GetResultObject()
-	fmt.Println(arr) // [1, 1]
+func main() {
+	getFactoryStats()
 }
