@@ -88,9 +88,6 @@ func getTrackedTokens(arrayOfTokens []Token) string {
 	return outputString
 }
 
-func main() {
-	drawTerminal()
-}
 func drawTerminal() {
 	// Main function to draw out terminal windows
 	type settings struct {
