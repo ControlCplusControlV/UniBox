@@ -12,16 +12,16 @@ import (
 )
 
 //Web3 HTTP client to send calls to the RPC enpoint
-var web3Client = initWeb3Client()
+var web3Client *jsonrpc.Client
 
-var uniswapRouter02 = initUniswapRouter02()
+var uniswapRouter02 *contract.Contract
 
 //initialize web3 http client
 func initWeb3Client() *jsonrpc.Client {
 	//TODO: need to pass in node url
 	client, err := jsonrpc.NewClient("")
 	if err != nil {
-		fmt.Println("Failed to connect", err)
+		fmt.Println("Failed to connect to node", err)
 		return nil
 	}
 	return client
