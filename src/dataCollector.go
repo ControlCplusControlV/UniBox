@@ -88,6 +88,3 @@ func getHistoricalLiquidityPositions(user string) interface{} {
 	var rCmd string = "user_hist_lps_v2(user_address   = \"" + user + "\")"
 	return evaluateRCmd(rCmd)
 }
-func main() {
-	getFactoryStats()
-}
