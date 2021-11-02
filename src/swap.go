@@ -93,7 +93,3 @@ func SwapExactTokensForETHSupportingFeeOnTransferTokens(amountIn uint, amountOut
 	txn := uniswapRouter02.Txn("swapExactTokensForETHSupportingFeeOnTransferTokens", amountIn, amountOutMin, path, to, deadline)
 	return txn
 }
-
-func main() {
-
-}
