@@ -4,17 +4,22 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	"github.com/D-Cous/go-web3"
+	"github.com/D-Cous/go-web3/abi"
+	"github.com/D-Cous/go-web3/contract"
+	"github.com/D-Cous/go-web3/jsonrpc"
+	"github.com/D-Cous/go-web3/wallet"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/umbracle/go-web3"
-	"github.com/umbracle/go-web3/abi"
-	"github.com/umbracle/go-web3/contract"
-	"github.com/umbracle/go-web3/jsonrpc"
 )
 
 //Web3 HTTP client to send calls to the RPC enpoint
 var web3Client *jsonrpc.Client
 
 var uniswapRouter02 *contract.Contract
+
+var chainID uint64
+
+var key *wallet.Key
 
 //initialize web3 http client
 func initWeb3Client() *jsonrpc.Client {
@@ -46,6 +51,15 @@ func initUniswapRouter02() *contract.Contract {
 
 	return contract.NewContract(uniswapRouter02Address, abi, web3Client)
 }
+
+// func signTx(txn *contract.Txn) {
+
+// 	signer := wallet.NewEIP155Signer(chainID)
+// 	signedTxn, _ = signer.SignTx(txn)
+
+// 	*web3.Transaction
+
+// }
 
 //Uniswap Router02 swap functions--------------------------
 
