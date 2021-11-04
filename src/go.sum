@@ -40,6 +40,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/D-Cous/go-web3 v0.0.0-20211103232830-16b7958d96ee h1:GtBlSgvhdZu3lUH3RYNMZzEQW6anmsL9thhRtdHTULA=
 github.com/D-Cous/go-web3 v0.0.0-20211103232830-16b7958d96ee/go.mod h1:Dx5YLHWZZEgHCbowkA/OqnhSG3oTzhvO5IHji8M/JIA=
+github.com/D-Cous/go-web3 v0.0.0-20211104022521-455473d79b33 h1:VLgNHepwr9nb6DJjLy0J8zOnxa7ms3jy1pWQRecSgX0=
+github.com/D-Cous/go-web3 v0.0.0-20211104022521-455473d79b33/go.mod h1:Dx5YLHWZZEgHCbowkA/OqnhSG3oTzhvO5IHji8M/JIA=
 github.com/DATA-DOG/go-sqlmock v1.3.3/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
 github.com/Microsoft/go-winio v0.4.13 h1:Hmi80lzZuI/CaYmlJp/b+FjZdRZhKu9c2mDVqKlLWVs=
 github.com/Microsoft/go-winio v0.4.13/go.mod h1:qXqCSQ3Xa7+6tgxaGTIe4Kpcdsi+P8jBhyzoq1bpyYA=

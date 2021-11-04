@@ -1,8 +1,9 @@
-package main
+package swap
 
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"github.com/D-Cous/go-web3"
 	"github.com/D-Cous/go-web3/abi"
@@ -10,30 +11,40 @@ import (
 	"github.com/D-Cous/go-web3/jsonrpc"
 	"github.com/D-Cous/go-web3/wallet"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 )
 
+//TODO: add a node url
 //Web3 HTTP client to send calls to the RPC enpoint
 var web3Client *jsonrpc.Client
 
+//TODO: add a sender wallet address
 var uniswapRouter02 *contract.Contract
 
-var chainID uint64
+//Returns *wallet.Key which is used to sign transactions
+func NewWalletKey(privateKey string) *wallet.Key {
+	ecdsaPrivateKey, err := crypto.HexToECDSA(privateKey)
 
-var key *wallet.Key
-
-//initialize web3 http client
-func initWeb3Client() *jsonrpc.Client {
-	//TODO: need to pass in node url
-	client, err := jsonrpc.NewClient("")
+	key := wallet.NewKey(ecdsaPrivateKey)
 	if err != nil {
-		fmt.Println("Failed to connect to node", err)
+		fmt.Println(err)
 		return nil
 	}
-	return client
+	return key
+}
+
+//initialize web3 http client
+func InitializeWeb3Client(nodeURL string) {
+	client, err := jsonrpc.NewClient(nodeURL)
+	if err != nil {
+		fmt.Println("Failed to connect to node", err)
+		os.Exit(1)
+	}
+	web3Client = client
 }
 
 //initialize uniswap router v2 contract instance
-func initUniswapRouter02() *contract.Contract {
+func InitializeUniswapRouter02(senderWalletAddress string) {
 	//initialize a web3 address with the uniswap router hex address
 	uniswapRouter02Address := web3.HexToAddress("0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D")
 	//read in the uniswapRouter02 abi from file
@@ -46,20 +57,13 @@ func initUniswapRouter02() *contract.Contract {
 	abi, err := abi.NewABI(string(abiBytes))
 	if err != nil {
 		fmt.Println("Error when creating UniswapRouter02ABI", err)
-		return nil
+		os.Exit(1)
 	}
-
-	return contract.NewContract(uniswapRouter02Address, abi, web3Client)
+	contractInstance := contract.NewContract(uniswapRouter02Address, abi, web3Client)
+	//set the from addresss
+	contractInstance.SetFrom(web3.HexToAddress(senderWalletAddress))
+	uniswapRouter02 = contractInstance
 }
-
-// func signTx(txn *contract.Txn) {
-
-// 	signer := wallet.NewEIP155Signer(chainID)
-// 	signedTxn, _ = signer.SignTx(txn)
-
-// 	*web3.Transaction
-
-// }
 
 //Uniswap Router02 swap functions--------------------------
 
