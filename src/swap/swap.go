@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"regexp"
+	"strconv"
+	"strings"
 
 	"github.com/D-Cous/go-web3"
 	"github.com/D-Cous/go-web3/abi"
@@ -12,6 +15,7 @@ import (
 	"github.com/D-Cous/go-web3/wallet"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
+	"golang.org/x/crypto/sha3"
 )
 
 //TODO: add a node url
@@ -110,4 +114,39 @@ func SwapExactETHForTokensSupportingFeeOnTransferTokens(amountOutMin uint, path 
 func SwapExactTokensForETHSupportingFeeOnTransferTokens(amountIn uint, amountOutMin uint, path []common.Address, to common.Address, deadline uint) *contract.Txn {
 	txn := uniswapRouter02.Txn("swapExactTokensForETHSupportingFeeOnTransferTokens", amountIn, amountOutMin, path, to, deadline)
 	return txn
+}
+
+func ToChecksumAddress(address string) (string, error) {
+	//check that the address is a valid Ethereum address
+	re1 := regexp.MustCompile("^(0x)?[0-9a-f]{40}$")
+	if !re1.MatchString(address) {
+		return "", fmt.Errorf("given address '%s' is not a valid Ethereum Address", address)
+	}
+	//convert the address to lowercase
+	re2 := regexp.MustCompile("/^0x/i")
+	address = re2.ReplaceAllString(address, "")
+
+	//convert address to sha3 hash
+	hasher := sha3.NewLegacyKeccak256()
+	hasher.Write([]byte(address))
+	sum := hasher.Sum(nil)
+	addressHash := fmt.Sprintf("%x", sum)
+	addressHash = re2.ReplaceAllString(addressHash, "")
+
+	//compile checksum address
+	checksumAddress := "0x"
+
+	for i := 0; i < len(address); i++ {
+		indexedValue, err := (strconv.ParseInt(string(rune(addressHash[i])), 16, 32))
+		if err != nil {
+			fmt.Println("Error when parsing addressHash during checksum conversion", err)
+			return "", err
+		}
+		if indexedValue > 7 {
+			checksumAddress += strings.ToUpper(string(address[i]))
+		} else {
+			checksumAddress += string(address[i])
+		}
+	}
+	return checksumAddress, nil
 }

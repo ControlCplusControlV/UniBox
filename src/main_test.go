@@ -116,8 +116,14 @@ func TestEThSwapFunctions(t *testing.T) {
 		t.Fatal("NewWalletKey Error")
 	}
 
+	//convert address to checksum
+	checksumAddress, err := swap.ToChecksumAddress("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48")
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	//set lp path
-	path := []common.Address{common.HexToAddress("0x000000000"), common.HexToAddress("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48")}
+	path := []common.Address{common.HexToAddress("0x000000000"), common.HexToAddress(checksumAddress)}
 	//reciever wallet address
 	to := common.HexToAddress(walletAddress)
 	//exact amount out
@@ -136,8 +142,8 @@ func TestEThSwapFunctions(t *testing.T) {
 	if txn2 == nil {
 		t.Fatal("SwapExactETHForTokens Error")
 	}
-	err := txn2.SignAndSend(key, 3)
-	if err != nil {
+	err2 := txn2.SignAndSend(key, 3)
+	if err2 != nil {
 		t.Fatal("Sign and Send Error", err)
 	}
 
