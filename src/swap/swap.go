@@ -118,7 +118,7 @@ func SwapExactTokensForETHSupportingFeeOnTransferTokens(amountIn uint, amountOut
 
 func ToChecksumAddress(address string) (string, error) {
 	//check that the address is a valid Ethereum address
-	re1 := regexp.MustCompile("^(0x)?[0-9a-f]{40}$")
+	re1 := regexp.MustCompile("^(0x)||(OX)?[0-9a-f]{40}$")
 	if !re1.MatchString(address) {
 		return "", fmt.Errorf("given address '%s' is not a valid Ethereum Address", address)
 	}
@@ -134,7 +134,7 @@ func ToChecksumAddress(address string) (string, error) {
 	addressHash = re2.ReplaceAllString(addressHash, "")
 
 	//compile checksum address
-	checksumAddress := "0x"
+	checksumAddress := ""
 
 	for i := 0; i < len(address); i++ {
 		indexedValue, err := (strconv.ParseInt(string(rune(addressHash[i])), 16, 32))
@@ -149,4 +149,17 @@ func ToChecksumAddress(address string) (string, error) {
 		}
 	}
 	return checksumAddress, nil
+}
+
+func IsChecksumAddress(address string) (bool, error) {
+	checksumAddress, err := ToChecksumAddress(address)
+	if err != nil {
+		fmt.Println(err)
+		return false, err
+	}
+	if checksumAddress == address {
+		return true, nil
+	} else {
+		return false, nil
+	}
 }
