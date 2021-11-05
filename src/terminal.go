@@ -38,13 +38,14 @@ func promptUser() {
 }
 
 func graphVolume() string {
-	data := []float64{3, 4, 9, 6, 2, 4, 5, 8, 5, 10, 2, 7, 2, 6}
-	graph := asciigraph.Plot(data)
+        data := protocolHistoricalStats().(map[string]interface{})["dailyVolumeETH"].([]float64)
+        graph := asciigraph.Plot(data)
 
-	graph = "A Cool Title \n" + graph
+        graph = "Protocol Volume by Day in ETH \n" + graph
 
-	return graph
+        return graph
 }
+
 
 func graphTVL() string {
 	data := []float64{3, 4, 9, 6, 2, 4, 5, 8, 5, 10, 2, 7, 2, 6}
