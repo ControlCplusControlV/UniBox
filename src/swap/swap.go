@@ -4,9 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"regexp"
-	"strconv"
-	"strings"
 
 	"github.com/D-Cous/go-web3"
 	"github.com/D-Cous/go-web3/abi"
@@ -15,7 +12,6 @@ import (
 	"github.com/D-Cous/go-web3/wallet"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"golang.org/x/crypto/sha3"
 )
 
 //TODO: add a node url
@@ -69,10 +65,49 @@ func InitializeUniswapRouter02(senderWalletAddress string) {
 	uniswapRouter02 = contractInstance
 }
 
-//Uniswap Router02 swap functions--------------------------
+func GetCurrentBlock() (uint64, error) {
+	blockNumber, err := web3Client.Eth().BlockNumber()
+	if err != nil {
+		return 0, err
+	} else {
+		return blockNumber, nil
+	}
+}
+
+//Uniswap Router02 functions--------------------------
+
+func Approve(contractAddress string, walletAddress string, key *wallet.Key, chainID uint64) error {
+	//initialize a web3 address with the uniswap router hex address
+	web3ContractAddress := web3.HexToAddress(contractAddress)
+	//read in the uniswapRouter02 abi from file
+	abiBytes, err := ioutil.ReadFile("erc20ABI.json")
+	if err != nil {
+		fmt.Println("Error when reading ERC20 ABI from file.")
+	}
+
+	//create a new web3 abi
+	abi, err := abi.NewABI(string(abiBytes))
+	if err != nil {
+		fmt.Println("Error when creating ERC20ABI", err)
+		return nil
+	}
+	contractInstance := contract.NewContract(web3ContractAddress, abi, web3Client)
+	//set the from addresss
+	contractInstance.SetFrom(web3.HexToAddress(walletAddress))
+	//approve the token to interact with the uniswap router
+	approveTxn := contractInstance.Txn("approve", web3.HexToAddress("0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"), 9000000000000000000)
+
+	//send the transaction
+	err = approveTxn.SignAndSend(key, chainID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func SwapExactTokensForTokens(amountIn uint, amountOutMin uint, path []common.Address, to common.Address, deadline uint) *contract.Txn {
-	txn := uniswapRouter02.Txn("swapExactTokensForTokens", web3.Latest, amountIn, amountOutMin, path, to, deadline)
+	txn := uniswapRouter02.Txn("swapExactTokensForTokens", amountIn, amountOutMin, path, to, deadline)
 	return txn
 }
 
@@ -114,52 +149,4 @@ func SwapExactETHForTokensSupportingFeeOnTransferTokens(amountOutMin uint, path 
 func SwapExactTokensForETHSupportingFeeOnTransferTokens(amountIn uint, amountOutMin uint, path []common.Address, to common.Address, deadline uint) *contract.Txn {
 	txn := uniswapRouter02.Txn("swapExactTokensForETHSupportingFeeOnTransferTokens", amountIn, amountOutMin, path, to, deadline)
 	return txn
-}
-
-func ToChecksumAddress(address string) (string, error) {
-	//check that the address is a valid Ethereum address
-	re1 := regexp.MustCompile("^(0x)||(OX)?[0-9a-f]{40}$")
-	if !re1.MatchString(address) {
-		return "", fmt.Errorf("given address '%s' is not a valid Ethereum Address", address)
-	}
-	//convert the address to lowercase
-	re2 := regexp.MustCompile("/^0x/i")
-	address = re2.ReplaceAllString(address, "")
-
-	//convert address to sha3 hash
-	hasher := sha3.NewLegacyKeccak256()
-	hasher.Write([]byte(address))
-	sum := hasher.Sum(nil)
-	addressHash := fmt.Sprintf("%x", sum)
-	addressHash = re2.ReplaceAllString(addressHash, "")
-
-	//compile checksum address
-	checksumAddress := ""
-
-	for i := 0; i < len(address); i++ {
-		indexedValue, err := (strconv.ParseInt(string(rune(addressHash[i])), 16, 32))
-		if err != nil {
-			fmt.Println("Error when parsing addressHash during checksum conversion", err)
-			return "", err
-		}
-		if indexedValue > 7 {
-			checksumAddress += strings.ToUpper(string(address[i]))
-		} else {
-			checksumAddress += string(address[i])
-		}
-	}
-	return checksumAddress, nil
-}
-
-func IsChecksumAddress(address string) (bool, error) {
-	checksumAddress, err := ToChecksumAddress(address)
-	if err != nil {
-		fmt.Println(err)
-		return false, err
-	}
-	if checksumAddress == address {
-		return true, nil
-	} else {
-		return false, nil
-	}
 }
