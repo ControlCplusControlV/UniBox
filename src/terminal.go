@@ -11,6 +11,7 @@ import (
 	"github.com/guptarohit/asciigraph"
 	"github.com/rivo/tview"
 	"main.go/dataAggregator"
+	"main.go/price"
 	"main.go/swap"
 )
 
@@ -210,9 +211,25 @@ func drawTerminal(config map[string]interface{}) {
 
 	var avaliableTokens = config["avaliableTokens"].([]interface{})
 
+	var ethereumPrice = price.GetEthereumPriceInUSD()
+
 	for index := 0; index < len(avaliableTokens); index++ {
 		if tokenList[avaliableTokens[index].(string)].(bool) {
-			trackedTokensList = append(trackedTokensList, Token{"10", avaliableTokens[index].(string)})
+
+			var tokenAddress string = config[avaliableTokens[index].(string)].(string)
+
+			var token interface{} = dataAggregator.GetAllPairStatsForToken(tokenAddress)
+
+			var priceInETH string = token.(map[string]interface{})["derivedETH"].(string)
+
+			priceInETHFloat, err := strconv.ParseFloat(priceInETH, 64)
+			if err != nil {
+				fmt.Println(err)
+			}
+			var tokenPriceFloat = ethereumPrice * priceInETHFloat
+			s := fmt.Sprintf("%f.2", tokenPriceFloat)
+
+			trackedTokensList = append(trackedTokensList, Token{s, avaliableTokens[index].(string)})
 		}
 	}
 
