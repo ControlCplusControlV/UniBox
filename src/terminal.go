@@ -58,7 +58,7 @@ func loadConfig() map[string]interface{} {
 	//hard code config map
 	configMap["availableTokens"] = avaliableTokensMap
 	configMap["trackedTokens"] = trackedTokensMap
-	configMap["initalized"] = true
+	configMap["initialized"] = true
 	configMap["availableTokens"] = []string{"USDC", "USDT", "DAI", "UNI", "WBTC", "SHIB", "LINK", "WETH"}
 
 	return configMap
