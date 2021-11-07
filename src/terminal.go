@@ -30,21 +30,21 @@ func loadConfig() map[string]interface{} {
 
 	var configMap = make(map[string]interface{})
 
-	var avaliableTokensMap = make(map[string]interface{})
+	var tokenAddressMapping = make(map[string]interface{})
 
 	var trackedTokensMap = make(map[string]interface{})
 
 	//hard code available tokens
-	avaliableTokensMap["USDC"] = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+	tokenAddressMapping["USDC"] = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
 	//usdt ropsten address
-	avaliableTokensMap["USDT"] = "0xdac17f958d2ee523a2206206994597c13d831ec7"
-	avaliableTokensMap["DAI"] = "0x6b175474e89094c44da98b954eedeac495271d0f"
-	avaliableTokensMap["UNI"] = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
-	avaliableTokensMap["WBTC"] = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
-	avaliableTokensMap["SHIB"] = "0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce"
-	avaliableTokensMap["LINK"] = "0x514910771af9ca656af840dff83e8264ecf986ca"
+	tokenAddressMapping["USDT"] = "0xdac17f958d2ee523a2206206994597c13d831ec7"
+	tokenAddressMapping["DAI"] = "0x6b175474e89094c44da98b954eedeac495271d0f"
+	tokenAddressMapping["UNI"] = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+	tokenAddressMapping["WBTC"] = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+	tokenAddressMapping["SHIB"] = "0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce"
+	tokenAddressMapping["LINK"] = "0x514910771af9ca656af840dff83e8264ecf986ca"
 	//weth ropsten address
-	avaliableTokensMap["WETH"] = "0xc778417e063141139fce010982780140aa0cd5ab"
+	tokenAddressMapping["WETH"] = "0xc778417e063141139fce010982780140aa0cd5ab"
 
 	//hard code trackded tokens
 	trackedTokensMap["DAI"] = false
@@ -56,7 +56,7 @@ func loadConfig() map[string]interface{} {
 	trackedTokensMap["WBTC"] = false
 
 	//hard code config map
-	configMap["availableTokens"] = avaliableTokensMap
+	configMap["TokenAddressMapping"] = tokenAddressMapping
 	configMap["trackedTokens"] = trackedTokensMap
 	configMap["initialized"] = true
 	configMap["availableTokens"] = []string{"USDC", "USDT", "DAI", "UNI", "WBTC", "SHIB", "LINK", "WETH"}
