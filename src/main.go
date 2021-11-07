@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/rivo/tview"
+	"main.go/strategy"
 	"main.go/swap"
 )
 
@@ -13,16 +14,17 @@ func main() {
 		setTrackedPools()
 	}
 
+	var ANSCIIUniCorn string = "   UniBox         \n      \\                \n       _\\,,            \n      \"-=\\~     _  \n         \\~___( ~\n        _|/---\\_   \n        \\        \\     \n Credit (ejm97)"
 	var tokensToApprove []interface{} = userConfig["needsApprove"].([]interface{})
 	for index := 0; index < len(tokensToApprove); index++ {
 		swap.Approve(tokensToApprove[index].(string))
 	}
 
-	//go strategy.MainTick()
+	go strategy.MainTick()
 	app := tview.NewApplication()
 	modal := tview.NewModal().
-		SetText("Do you want to quit the application? \n Can I do new lines?").
-		AddButtons([]string{"Enter Swap Interface", "Cancel"}).
+		SetText(ANSCIIUniCorn).
+		AddButtons([]string{"Enter Swap Interface", "Enter Analytics Interface"}).
 		SetDoneFunc(func(buttonIndex int, buttonLabel string) {
 			if buttonLabel == "Enter Swap Interface" {
 				swapTerminal(userConfig)
