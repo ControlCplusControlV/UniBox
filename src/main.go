@@ -1,10 +1,6 @@
 package main
 
-<<<<<<< HEAD
-func main() {
-	//Build your strategies in the strategy.go file and pass the functions into MainTick()
-	// go strategy.MainTick()
-=======
+
 import (
 	"github.com/rivo/tview"
 	"main.go/strategy"
@@ -42,6 +38,4 @@ func main() {
 	if err := app.SetRoot(modal, false).SetFocus(modal).Run(); err != nil {
 		panic(err)
 	}
->>>>>>> 997fe36d7a7f2c2d6bacd051fbf48e63c69129a2
-
 }
