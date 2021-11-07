@@ -11,6 +11,6 @@ require (
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/rivo/tview v0.0.0-20211029142923-a4acb08f513e
 	github.com/senseyeio/roger v0.0.0-20191009211040-43e330bee47f
-	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
+	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
 	golang.org/x/text v0.3.7 // indirect
 )
