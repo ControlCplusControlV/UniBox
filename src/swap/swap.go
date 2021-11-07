@@ -129,7 +129,10 @@ func GetCurrentBlock() (uint64, error) {
 	}
 }
 
-func Approve(contractAddress string, walletAddress string, key *wallet.Key, chainID uint64) error {
+func Approve(contractAddress string) error {
+	walletAddress := WalletAddress
+	key := walletKey
+	chainID = chainID
 	//initialize a web3 address with the uniswap router hex address
 	web3ContractAddress := web3.HexToAddress(contractAddress)
 	//read in the uniswapRouterV2 abi from file
