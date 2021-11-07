@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/rivo/tview"
 	"main.go/swap"
-	"main.go/strategy"
 )
 
 func main() {
@@ -19,18 +18,21 @@ func main() {
 		swap.Approve(tokensToApprove[index].(string))
 	}
 
-	go strategy.MainTick()
-
+	//go strategy.MainTick()
 	app := tview.NewApplication()
-	form := tview.NewForm().
-		AddButton("Enter Swap Interface", func() {
-			swapTerminal(userConfig)
-		}).
-		AddButton("Enter Analytics Interface", func() {
-			drawTerminal(userConfig)
+	modal := tview.NewModal().
+		SetText("Do you want to quit the application? \n Can I do new lines?").
+		AddButtons([]string{"Enter Swap Interface", "Cancel"}).
+		SetDoneFunc(func(buttonIndex int, buttonLabel string) {
+			if buttonLabel == "Enter Swap Interface" {
+				swapTerminal(userConfig)
+			} else if buttonLabel == "Enter Analytics Interface" {
+				drawTerminal(userConfig)
+			}
 		})
-	form.SetBorder(true).SetTitle("UniBox v0.1").SetTitleAlign(tview.AlignCenter)
-	if err := app.SetRoot(form, true).SetFocus(form).Run(); err != nil {
+	modal.SetBorder(true).SetTitle("UniBox v0.1").SetTitleAlign(tview.AlignCenter)
+
+	if err := app.SetRoot(modal, false).SetFocus(modal).Run(); err != nil {
 		panic(err)
 	}
 
