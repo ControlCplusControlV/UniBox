@@ -37,5 +37,4 @@ func main() {
 	if err := app.SetRoot(modal, false).SetFocus(modal).Run(); err != nil {
 		panic(err)
 	}
-
 }

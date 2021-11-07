@@ -194,11 +194,13 @@ func graphTVL() string {
 	return graph
 }
 
-func graphThePool() string {
-	data := []float64{3, 4, 9, 6, 2, 4, 5, 8, 5, 10, 2, 7, 2, 6}
-	graph := asciigraph.Plot(data, asciigraph.Precision(10), asciigraph.Width(20), asciigraph.Height(10))
+func graphThePool(pairAddr string, title string) string {
+	data := dataAggregator.ViewStatsV2(2, pairAddr).(map[string]interface{})["totalLiquidityETH"].([]string)
 
-	graph = "A Cool Title \n" + graph
+	dataFloat := stringToFloat(data)
+	graph := asciigraph.Plot(dataFloat, asciigraph.Precision(10), asciigraph.Width(20), asciigraph.Height(10))
+
+	graph = title + "\n" + graph
 
 	return graph
 }
@@ -240,9 +242,16 @@ func drawTerminal(config map[string]interface{}) {
 	for index := 0; index < len(avaliableTokens); index++ {
 		if tokenList[avaliableTokens[index].(string)].(bool) {
 
-			var tokenAddress string = config[avaliableTokens[index].(string)].(string)
+			var tokenAddressString string
 
-			var token interface{} = dataAggregator.GetAllPairStatsForToken(tokenAddress)
+			var tokenAddress []map[string]interface{} = config["TokenAddressMapping"].([]map[string]interface{})
+			for index2 := 0; index2 < len(tokenAddress); index2++ {
+				if tokenAddress[index2][avaliableTokens[index].(string)] != nil {
+					tokenAddressString = tokenAddress[index2][avaliableTokens[index].(string)].(string)
+				}
+			}
+
+			var token interface{} = dataAggregator.GetAllPairStatsForToken(tokenAddressString)
 
 			var priceInETH string = token.(map[string]interface{})["derivedETH"].(string)
 
@@ -286,7 +295,7 @@ func drawTerminal(config map[string]interface{}) {
 		SetChangedFunc(func() {
 			mainTerminal.Draw()
 		})
-	fmt.Fprintf(trackedStat1, "%s ", graphThePool())
+	fmt.Fprintf(trackedStat1, "%s ", graphThePool("0xbb2b8038a1640196fbe3e38816f3e67cba72d940", "WBTC-ETH Pair"))
 
 	trackedStat2 := tview.NewTextView().
 		SetDynamicColors(true).
@@ -294,15 +303,7 @@ func drawTerminal(config map[string]interface{}) {
 		SetChangedFunc(func() {
 			mainTerminal.Draw()
 		})
-	fmt.Fprintf(trackedStat2, "%s ", graphThePool())
-
-	trackedStat3 := tview.NewTextView().
-		SetDynamicColors(true).
-		SetRegions(false).
-		SetChangedFunc(func() {
-			mainTerminal.Draw()
-		})
-	fmt.Fprintf(trackedStat3, "%s ", graphThePool())
+	fmt.Fprintf(trackedStat2, "%s ", graphThePool("0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc", "USDC-ETH Pair"))
 
 	grid := tview.NewGrid().
 		SetRows(3, 0, 3).
