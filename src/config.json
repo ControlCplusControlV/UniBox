@@ -1,0 +1,12 @@
+{
+    "trackedTokens" : {"DAI":false,"LINK":false,"SHIB":true,"UNI":true,"USDC":true,"USDT":false,"WBTC":false},
+    "initialized" : true,
+    "avaliableTokens" : ["USDC",
+		"USDT",
+		"DAI",
+		"UNI",
+		"WBTC",
+		"SHIB",
+		"LINK"]
+}
+

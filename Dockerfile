@@ -12,5 +12,6 @@ COPY src/* src/
 RUN Rscript setupUniswappe.R
 
 RUN go get github.com/senseyeio/roger
+RUN go get github.com/D-Cous/go-web3@unibox
 
-#ENTRYPOINT ["nohup Rscript RServe.R &"]
+CMD [ "/usr/bin/nohup", "/usr/bin/Rscript", "/go/RServe.R", "&" ]
