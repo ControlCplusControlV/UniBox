@@ -21,3 +21,21 @@ UniBox also has a powerful command line interface that gives user's access to a 
 #### Protocol Support
 
 It's important to note UniBox only supports UniSwap V2 but we'd be happy to add V3 support in the future, however as uniswappeR only supports Uniswap V2 we wanted to focus on supporting the protocol we can provide users with data from. There are also limitations with web3-go that we were unable to patch in time to provide support for web3-go.
+
+## Installation
+
+Clone this repo, cd into it and run
+```
+docker build -t unibox .
+```
+this may take around 10 minutes to build, this is to be expected as its a large branch. 
+Once it is finished attach and login to the container, then run
+
+```
+cd src
+go run .
+```
+
+and you will be taken into the UniBox interface!
+
+To enable swapping you have to enter a private key, a public key, and a node url in to the swap.go file.
