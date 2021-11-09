@@ -2,6 +2,11 @@
 
 Built out for the Unicode 2021 Hackathon!
 
+[UniCode Showcase](https://showcase.ethglobal.com/unicode/unibox)
+
+[Installation Help](https://vimeo.com/643752929)
+
+[Usage Help](https://vimeo.com/643752888)
 ## It's Uniswap in a Box!
 
 Uniswap allows users to interact with the Uniswap Protocol directly through a self-hosted docker container. This improves security for those who want to keep their swapping as far from broswers and some of the potential risks they pose. UniBox allows users to also take advantage of the Uniswap Protocol in new ways, as it provides an analytics interface that utilizes OmniAnalytics' uniswappeR package to fetch data. UniBox also provides users with an interface to build out and execute automated trading strategies.
