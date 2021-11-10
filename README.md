@@ -1,5 +1,7 @@
 # 🦄 UniBox 📦
 
+Developed by [ControlCPlusControlV](https://github.com/ControlCplusControlV) and [D-Cous](https://github.com/D-Cous)
+
 Built out for the Unicode 2021 Hackathon!
 
 ## It's Uniswap in a Box!
