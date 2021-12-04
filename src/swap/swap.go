@@ -7,11 +7,11 @@ import (
 	"math/big"
 	"os"
 
-	"github.com/D-Cous/go-web3"
-	"github.com/D-Cous/go-web3/abi"
-	"github.com/D-Cous/go-web3/contract"
-	"github.com/D-Cous/go-web3/jsonrpc"
-	"github.com/D-Cous/go-web3/wallet"
+	"github.com/0xKitsune/go-web3"
+	"github.com/0xKitsune/go-web3/abi"
+	"github.com/0xKitsune/go-web3/contract"
+	"github.com/0xKitsune/go-web3/jsonrpc"
+	"github.com/0xKitsune/go-web3/wallet"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 )

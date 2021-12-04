@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.2
-	github.com/D-Cous/go-web3 v0.0.0-20211106002315-d356f1d2823f
+	github.com/0xKitsune/go-web3 v0.0.0-20211106002315-d356f1d2823f
 	github.com/ethereum/go-ethereum v1.10.11
 	github.com/guptarohit/asciigraph v0.5.2
 	github.com/mattn/go-colorable v0.1.11 // indirect

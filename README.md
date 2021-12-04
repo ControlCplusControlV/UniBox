@@ -1,6 +1,6 @@
 # 🦄 UniBox 📦
 
-Developed by [ControlCPlusControlV](https://github.com/ControlCplusControlV) and [D-Cous](https://github.com/D-Cous)
+Developed by [ControlCPlusControlV](https://github.com/ControlCplusControlV) and [0xKitsune](https://github.com/0xKitsune)
 
 Built out for the Unicode 2021 Hackathon!
 
